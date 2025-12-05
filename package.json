@@ -1,0 +1,65 @@
+{
+  "name": "TodoBoard",
+  "productName": "todoboard",
+  "version": "1.0.0",
+  "description": "A simple todo board application",
+  "main": ".vite/build/main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "eslint --ext .ts,.tsx .",
+    "build": "MANUAL_BUILD=true vite build -c vite.main.config.ts && vite build -c vite.preload.config.ts && vite build -c vite.renderer.config.ts",
+    "dist": "npm run build && electron-builder"
+  },
+  "build": {
+    "appId": "com.todoboard.app",
+    "productName": "TodoBoard",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      ".vite/build/**/*",
+      ".vite/renderer/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    }
+  },
+  "keywords": [],
+  "author": {
+    "name": "ron",
+    "email": "ron.arevalo13@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "electron-log": "^5.4.3",
+    "electron-squirrel-startup": "^1.0.1",
+    "electron-updater": "^6.3.9"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.10.2",
+    "@electron-forge/maker-deb": "^7.10.2",
+    "@electron-forge/maker-rpm": "^7.10.2",
+    "@electron-forge/maker-squirrel": "^7.10.2",
+    "@electron-forge/maker-zip": "^7.10.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.10.2",
+    "@electron-forge/plugin-fuses": "^7.10.2",
+    "@electron-forge/plugin-vite": "^7.10.2",
+    "@electron/fuses": "^1.8.0",
+    "@types/electron-squirrel-startup": "^1.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "electron": "39.2.5",
+    "electron-builder": "^25.1.8",
+    "eslint": "^8.57.1",
+    "eslint-plugin-import": "^2.32.0",
+    "typescript": "~4.5.4",
+    "vite": "^5.4.21"
+  }
+}
