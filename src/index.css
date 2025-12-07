@@ -7,10 +7,56 @@ body {
   margin: auto;
   max-width: 1200px; /* Increased width for columns */
   padding: 2rem;
+  padding-bottom: 5rem; /* Space for footer */
+  min-height: 100vh;
+  box-sizing: border-box;
+  position: relative;
 }
 
 a {
   color: #06d6a0;
+}
+
+/* Footer Styles */
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(30, 30, 30, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(5px);
+  z-index: 100;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.app-version {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+  font-family: monospace;
+}
+
+.update-status {
+  font-size: 0.9rem;
+  color: #06d6a0;
+}
+
+.btn-sm {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.hidden {
+  display: none !important;
 }
 
 /* Board Layout */

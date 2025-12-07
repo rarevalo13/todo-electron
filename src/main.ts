@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import started from 'electron-squirrel-startup';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
@@ -7,11 +7,54 @@ const path = require('path');
 // Configure logging
 log.transports.file.level = 'info';
 autoUpdater.logger = log;
+autoUpdater.autoDownload = true;
+autoUpdater.autoInstallOnAppQuit = true;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
   app.quit();
 }
+
+const sendStatusToWindow = (text: string) => {
+  log.info(text);
+  BrowserWindow.getAllWindows().forEach((win) => {
+    win.webContents.send('update-status', text);
+  });
+};
+
+autoUpdater.on('checking-for-update', () => {
+  sendStatusToWindow('Checking for update...');
+});
+autoUpdater.on('update-available', (info) => {
+  sendStatusToWindow('Update available. Downloading...');
+});
+autoUpdater.on('update-not-available', (info) => {
+  sendStatusToWindow('Up to date.');
+});
+autoUpdater.on('error', (err) => {
+  sendStatusToWindow('Error in auto-updater. ' + err);
+});
+autoUpdater.on('download-progress', (progressObj) => {
+  let log_message = 'Download speed: ' + progressObj.bytesPerSecond;
+  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+  log_message = log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')';
+  sendStatusToWindow('Downloading... ' + Math.round(progressObj.percent) + '%');
+});
+autoUpdater.on('update-downloaded', (info) => {
+  sendStatusToWindow('Update downloaded. Ready to install.');
+});
+
+ipcMain.handle('check-update', () => {
+  autoUpdater.checkForUpdates();
+});
+
+ipcMain.handle('install-update', () => {
+  autoUpdater.quitAndInstall();
+});
+
+ipcMain.handle('get-app-version', () => {
+  return app.getVersion();
+});
 
 const createWindow = () => {
   // Create the browser window.
@@ -49,7 +92,8 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createWindow();
-  autoUpdater.checkForUpdatesAndNotify();
+  // Optional: Check on startup too, or just wait for user interaction
+  // autoUpdater.checkForUpdatesAndNotify();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

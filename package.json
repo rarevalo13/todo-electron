@@ -29,7 +29,16 @@
         "dmg",
         "zip"
       ]
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "rarevalo13",
+      "repo": "todo-electron"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rarevalo13/todo-electron.git"
   },
   "keywords": [],
   "author": {

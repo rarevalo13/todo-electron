@@ -28,6 +28,7 @@
 
 import './index.css';
 import { createBoard } from './components/Board';
+import { createFooter } from './components/Footer';
 
 console.log(
   '👋 This message is being logged by "renderer.ts", included via Vite',
@@ -36,5 +37,6 @@ console.log(
 const appContainer = document.getElementById('app');
 if (appContainer) {
   createBoard(appContainer);
+  createFooter(appContainer);
 }
 
